@@ -1,5 +1,8 @@
-import Login from "./components/Login";
-import Signup from "./components/Signup";
+import { Route, Routes } from "react-router-dom"
+import Login from "./pages/Login"
+import Signup from "./pages/Signup"
+import TrackingPage from "./pages/TrackingPage"
+
 
 
 
@@ -7,7 +10,14 @@ function App() {
 
   return (
     <>
-      <Login />
+      <Routes>
+      
+      <Route path="/" element={<TrackingPage />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+      
+      <Route path="*" element={<div>404 Not Found</div>} />
+    </Routes>
       {/* <Signup/> */}
     </>
   )

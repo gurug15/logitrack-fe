@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import Input from './ui/Input';
+import Input from '../components/ui/Input';
 import signupsvg from '../assets/authpage/signup.png'; // still using this image
+import { Link } from 'react-router-dom';
 
 const Signup = () => {
   const [user, setUser] = useState({
@@ -75,9 +76,9 @@ const Signup = () => {
 
           <p className="text-center text-sm text-gray-700">
             Already have an account?{' '}
-            <a href="#" className="text-blue-500 hover:underline">
+            <Link to="/login" className="text-blue-500 hover:underline">
               Log in
-            </a>
+            </Link>
           </p>
         </form>
       </div>
