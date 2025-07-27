@@ -1,23 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Input from '../components/ui/Input';
 import signupsvg from '../assets/authpage/signup.png'; // still using this image
 import { Link } from 'react-router-dom';
+import { useSignUp } from '../assets/hooks/useSignup';
 
 const Signup = () => {
-  const [user, setUser] = useState({
-    name: '',
-    email: '',
-    password: '',
-    phone: '',
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUser((prevUser) => ({
-      ...prevUser,
-      [name]: value,
-    }));
-  };
+ const {user,errors,isLoading,handleChange,handleSubmit} = useSignUp();
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -27,7 +15,12 @@ const Signup = () => {
           Enter your details to sign up and get started.
         </p>
 
-        <form>
+        <form onSubmit={handleSubmit}>
+              {errors.submit && (
+                            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3  text-center rounded mb-4 text-sm">
+                                {errors.submit}
+                            </div>
+              )}
           <Input
             label="Full Name"
             name="name"
@@ -35,6 +28,7 @@ const Signup = () => {
             type="text"
             value={user.name}
             onChange={handleChange}
+            disabled={isLoading}
           />
           <Input
             label="Email"
@@ -43,6 +37,7 @@ const Signup = () => {
             type="email"
             value={user.email}
             onChange={handleChange}
+            disabled={isLoading}
           />
           <Input
             label="Phone"
@@ -51,6 +46,7 @@ const Signup = () => {
             type="tel"
             value={user.phone}
             onChange={handleChange}
+            disabled={isLoading}
           />
           <Input
             label="Password"
@@ -59,11 +55,17 @@ const Signup = () => {
             type="password"
             value={user.password}
             onChange={handleChange}
+            disabled={isLoading}
           />
 
           <button
-            className="mt-5 w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
+            className={`mt-5 w-full text-white p-2 rounded-md transition-colors ${
+                            isLoading 
+                                ? 'bg-gray-400 cursor-not-allowed' 
+                                : 'bg-blue-500 hover:bg-blue-600'
+                        }`}
             type="submit"
+            disabled={isLoading}
           >
             Sign Up
           </button>
@@ -82,7 +84,7 @@ const Signup = () => {
           </p>
         </form>
       </div>
-
+             
       <div>
         <img
           src={signupsvg}

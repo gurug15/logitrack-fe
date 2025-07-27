@@ -82,8 +82,9 @@ export const useLogin = () => {
       const response = await loginAPI(formData);
       console.log(response)
       
-      //localStorage.setItem('token', response.token);
-      navigate('/dashboard');
+      localStorage.setItem('token', response);
+      // resetForm();
+      navigate('/');
       
     } catch (error) {
    
