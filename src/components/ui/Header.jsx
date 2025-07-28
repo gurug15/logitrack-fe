@@ -1,5 +1,6 @@
 import Logo from './Logo';
 import Button from './Button';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const navItems = [
@@ -31,8 +32,8 @@ const Header = () => {
         </nav>
         
         <div className="flex gap-2">
-          <Button variant="primary">Request a demo</Button>
-          <Button variant="secondary">Sign up</Button>
+          {/* <Button variant="primary">Request a demo</Button> */}
+          <Link to="/signup"><Button variant="secondary">Sign up</Button></Link>
         </div>
       </div>
     </header>

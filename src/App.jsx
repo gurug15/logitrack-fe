@@ -18,20 +18,18 @@ function App() {
   return (
     <>
       <Routes>
-      
       <Route path="/" element={<Layout />} >
-       <Route index element={<HomePage/>}/>
-       <Route path="track" element={<TrackingPage />} />
+          <Route index element={<HomePage/>}/>
+          <Route path="track" element={<TrackingPage />} />
       </Route>
       <Route path="/dashboard" element={<DashboardLayout />}>
           <Route path="track" element={<TrackingPage />} />
           <Route index  element={<UserDashboard/>}/>
           <Route path="orders"  element={<OrdersPage/>}/>
-            <Route path="orders/createOrder" element={<CreateOrderForm/>}/>
+          <Route path="orders/createOrder" element={<CreateOrderForm/>}/>
       </Route>
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
-      
       <Route path="*" element={<ErrorPage404/>} />
     </Routes>
       {/* <Signup/> */}

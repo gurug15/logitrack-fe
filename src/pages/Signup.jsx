@@ -29,7 +29,8 @@ const Signup = () => {
             value={user.name}
             onChange={handleChange}
             disabled={isLoading}
-          />
+            error={errors.name}
+            />
           <Input
             label="Email"
             name="email"
@@ -38,6 +39,7 @@ const Signup = () => {
             value={user.email}
             onChange={handleChange}
             disabled={isLoading}
+            error={errors.email}
           />
           <Input
             label="Phone"
@@ -47,6 +49,7 @@ const Signup = () => {
             value={user.phone}
             onChange={handleChange}
             disabled={isLoading}
+            error={errors.phone}
           />
           <Input
             label="Password"
@@ -56,6 +59,7 @@ const Signup = () => {
             value={user.password}
             onChange={handleChange}
             disabled={isLoading}
+            error={errors.password}
           />
 
           <button
