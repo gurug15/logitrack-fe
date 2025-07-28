@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Button from './Button';
 
-const SearchBar = ({ placeholder = "Track your package", onSearch }) => {
+const SearchBar = ({ placeholder = "Track your package", onSearch,btnTxt="Track" }) => {
   const [searchValue, setSearchValue] = useState("");
 
   const handleSearch = () => {
@@ -35,7 +35,7 @@ const SearchBar = ({ placeholder = "Track your package", onSearch }) => {
         
         <div className="flex items-center justify-center rounded-r-lg border-l-0 border-none bg-[#f0f1f5] pr-2">
           <Button size="medium" onClick={handleSearch}>
-            Track
+            {btnTxt}
           </Button>
         </div>
       </div>

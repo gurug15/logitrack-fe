@@ -2,9 +2,9 @@ import Logo from './Logo';
 
 const DashboardHeader = () => {
   const navItems = [
-    { label: "Dashboard", href: "#" },
-    { label: "Shipments", href: "#" },
-    { label: "Orders", href: "#" },
+    { label: "Dashboard", href: "/dashboard" },
+    { label: "Shipments", href: "/shipments" },
+    { label: "Orders", href: "/dashboard/orders" },
     { label: "Customers", href: "#" },
     { label: "Reports", href: "#" }
   ];
