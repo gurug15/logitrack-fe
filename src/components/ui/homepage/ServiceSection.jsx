@@ -1,5 +1,6 @@
-import ServiceCard from './ServiceCard';
-import { PackageIcon, MapPinIcon, TruckIcon } from './Icons';
+
+import { PackageIcon, MapPinIcon, TruckIcon } from '../Icons';
+import ServiceCard from '../ServiceCard';
 
 const ServicesSection = () => {
   const services = [

@@ -1,4 +1,4 @@
-import SearchBar from './SearchBar';
+import SearchBar from '../SearchBar';
 
 const HeroSection = ({ onSearch }) => {
   const heroImageUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuAW5GELLqtmSIYUK0M5-dNt0ElowONKrX5WYc2ccl-TT8xAyDEzfFxR9LkFTFhKTNr0NrD3CR3YKLY4VhI4sQ8Lf1F_jvN1WMn6sgmdnYU18S3plm9b2KU9hD9VI0v7pdiU-fHOj2pQU6fKWy3AnCwnaR9fKZTw680_kZ36aOdkB2cNCKrez9JcBwFNZraQ4p1c4i5Xj86K55RDeZSp_tDaochOWUAJMagTQ7Zyo78F9z89Rs1q2qHAcB8-CmRsTW5hb2pscJIYsFQ";

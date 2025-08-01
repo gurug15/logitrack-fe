@@ -4,31 +4,8 @@ import Button from '../components/ui/Button';
 import SearchBar from '../components/ui/SearchBar';
 import { Link, useNavigate } from 'react-router-dom';
 import { useGetOrders } from '../hooks/orders/useGetOrders';
-
-
-// StatusBadge component (keep your existing one)
-const StatusBadge = ({ status }) => {
-  const getStatusColor = (status) => {
-    switch (status.toLowerCase()) {
-      case 'delivered':
-        return 'bg-green-100 text-green-800';
-      case 'in transit':
-        return 'bg-blue-100 text-blue-800';
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'failed':
-        return 'bg-red-100 text-red-800';
-      default:
-        return 'bg-[#f1f2f4] text-[#121417]';
-    }
-  };
-
-  return (
-    <button className={`flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-8 px-4 text-sm font-medium leading-normal w-full ${getStatusColor(status)}`}>
-      <span className="truncate">{status}</span>
-    </button>
-  );
-};
+import { StatusBadge } from '../components/ui/StatusBadge';
+import { DataTable } from '../components/tabels/DataTable';
 
 // Main Orders Page Component
 const OrdersPage = () => {
@@ -53,6 +30,61 @@ const OrdersPage = () => {
 
   const handleViewOrder = (orderId) => {
     navigate(`/dashboard/orders/${orderId}`);
+  };
+
+  // Define table columns
+  const columns = [
+    {
+      key: 'id',
+      header: 'Order ID',
+      primary: true,
+      render: (value) => `#${value}`,
+      width: 'w-[120px]'
+    },
+    {
+      key: 'customername',
+      header: 'Customer Name',
+      width: 'w-[200px]'
+    },
+    {
+      key: 'orderDate',
+      header: 'Order Date',
+      render: (value) => new Date(value).toLocaleDateString(),
+      width: 'w-[140px]'
+    },
+    {
+      key: 'status',
+      header: 'Status',
+      render: (value) => <StatusBadge status={value} />,
+      width: 'w-[120px]'
+    },
+    {
+      key: 'totalprice',
+      header: 'Total Amount',
+      render: (value) => `₹${value?.toFixed(2) || 'N/A'}`,
+      width: 'w-[140px]'
+    },
+    {
+      key: 'actions',
+      header: 'Actions',
+      render: (_, row) => (
+        <button 
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent row click
+            handleViewOrder(row.orderId);
+          }}
+          className="text-[#687282] hover:text-[#1b5ff3] transition-colors font-bold tracking-[0.015em]"
+        >
+          View
+        </button>
+      ),
+      width: 'w-[100px]'
+    }
+  ];
+
+  // Handle row click (optional - you can remove this if you only want button click)
+  const handleRowClick = (row) => {
+    handleViewOrder(row.orderId);
   };
 
   // Loading state
@@ -121,73 +153,21 @@ const OrdersPage = () => {
         </div>
 
         {/* Orders Table */}
-        <div className="px-4 py-3">
-          {orders.length === 0 ? (
+        {orders.length === 0 ? (
+          <div className="px-4 py-3">
             <div className="text-center py-8">
               <p className="text-gray-600">
                 {searchQuery ? 'No orders found matching your search.' : 'No orders available.'}
               </p>
             </div>
-          ) : (
-            <div className="flex overflow-hidden rounded-xl border border-[#dde0e4] bg-white">
-              <div className="w-full overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="bg-white">
-                      <th className="px-4 py-3 text-left text-[#121417] text-sm font-medium leading-normal">
-                        Order ID
-                      </th>
-                      <th className="px-4 py-3 text-left text-[#121417] text-sm font-medium leading-normal">
-                        Customer Name
-                      </th>
-                      <th className="px-4 py-3 text-left text-[#121417] text-sm font-medium leading-normal">
-                        Order Date
-                      </th>
-                      <th className="px-4 py-3 text-left text-[#121417] text-sm font-medium leading-normal">
-                        Status
-                      </th>
-                      <th className="px-4 py-3 text-left text-[#121417] text-sm font-medium leading-normal">
-                        Total Amount
-                      </th>
-                      <th className="px-4 py-3 text-left text-[#687282] text-sm font-medium leading-normal">
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {orders.map((order, index) => (
-                      <tr key={order.orderId || index} className="border-t border-t-[#dde0e4]">
-                        <td className="h-[72px] px-4 py-2 text-[#121417] text-sm font-normal leading-normal">
-                          #{order.id}
-                        </td>
-                        <td className="h-[72px] px-4 py-2 text-[#687282] text-sm font-normal leading-normal">
-                          {order.customername}
-                        </td>
-                        <td className="h-[72px] px-4 py-2 text-[#687282] text-sm font-normal leading-normal">
-                          {new Date(order.orderDate).toLocaleDateString()}
-                        </td>
-                        <td className="h-[72px] px-4 py-2 text-sm font-normal leading-normal">
-                          <StatusBadge status={order.status} />
-                        </td> 
-                        <td className="h-[72px] px-4 py-2 text-[#687282] text-sm font-normal leading-normal">
-                          ₹{order.totalprice?.toFixed(2) || 'N/A'}
-                        </td>
-                        <td className="h-[72px] px-4 py-2 text-[#687282] text-sm font-bold leading-normal tracking-[0.015em]">
-                          <button 
-                            onClick={() => handleViewOrder(order.orderId)}
-                            className="hover:text-[#1b5ff3] transition-colors"
-                          >
-                            View
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
-        </div>
+          </div>
+        ) : (
+          <DataTable 
+            columns={columns}
+            data={orders}
+            onRowClick={handleRowClick}
+          />
+        )}
 
         {/* Pagination */}
         {totalPages > 1 && (
