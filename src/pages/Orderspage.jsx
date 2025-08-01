@@ -3,7 +3,7 @@ import Pagination from '../components/ui/Pagination';
 import Button from '../components/ui/Button';
 import SearchBar from '../components/ui/SearchBar';
 import { Link, useNavigate } from 'react-router-dom';
-import { useGetOrders } from '../assets/hooks/orders/useGetOrders';
+import { useGetOrders } from '../hooks/orders/useGetOrders';
 
 
 // StatusBadge component (keep your existing one)
