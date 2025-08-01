@@ -2,7 +2,7 @@ import React from 'react'
 import Input from '../components/ui/Input';
 import loginsvg from '../assets/authpage/loginpage.png';
 import { Link } from 'react-router-dom';
-import { useLogin } from '../assets/hooks/useLogin';
+import { useLogin } from '../assets/hooks/auth/useLogin';
 // import { useLogin } from '../features/auth/hooks/useLogin';
 
 const Login = () => {

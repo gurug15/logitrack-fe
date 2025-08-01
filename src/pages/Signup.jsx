@@ -2,7 +2,7 @@ import React from 'react';
 import Input from '../components/ui/Input';
 import signupsvg from '../assets/authpage/signup.png'; // still using this image
 import { Link } from 'react-router-dom';
-import { useSignUp } from '../assets/hooks/useSignup';
+import { useSignUp } from '../assets/hooks/auth/useSignup';
 
 const Signup = () => {
  const {user,errors,isLoading,handleChange,handleSubmit} = useSignUp();
