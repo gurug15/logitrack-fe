@@ -73,7 +73,7 @@ const OrderDetailsPage = () => {
                   <p className="text-[#111318] text-base font-bold leading-tight">Order Summary</p>
                   <p className="text-[#606e8a] text-sm font-normal leading-normal">Total: ₹ 2,500</p>
                 </div>
-                <div className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg flex-1 bg-gray-100"></div>
+                {/* <div className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg flex-1 bg-gray-100"></div> */}
               </div>
             </div>
 
@@ -93,7 +93,7 @@ const OrderDetailsPage = () => {
                     <p><span className="font-medium">Country:</span> India</p>
                   </div>
                 </div>
-                <div className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg flex-1 bg-gray-100"></div>
+                {/* <div className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg flex-1 bg-gray-100"></div> */}
               </div>
             </div>
 

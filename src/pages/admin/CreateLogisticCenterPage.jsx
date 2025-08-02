@@ -38,7 +38,7 @@ const CreateLogisticCenterPage = () => {
   
 
         <div className="flex flex-1 justify-center py-5">
-          <div className="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1">
+          <div className="layout-content-container flex flex-col w-[512px] py-5 max-w-[960px] flex-1">
             {/* Breadcrumb */}
             <Breadcrumb items={breadcrumbItems} />
 

@@ -1,6 +1,6 @@
 export const StatusBadge = ({ status }) => {
   const getStatusColor = (status) => {
-    switch (status.toLowerCase()) {
+    switch ((status || "").toLowerCase()) {
       case 'delivered':
         return 'bg-green-100 text-green-800';
       case 'in transit':

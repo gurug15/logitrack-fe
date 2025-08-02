@@ -2,8 +2,8 @@ import { FilterButton } from "../../ui/FilterButton";
 
 export const UserFilters = ({ activeFilters, onFilterChange }) => {
   const filters = [
-    { key: 'role', label: 'Role' },
-    { key: 'status', label: 'Status' },
+      { key: 'role', label: 'Role' },
+      { key: 'status', label: 'Status' },
     { key: 'center', label: 'Logistics Center' }
   ];
 

@@ -11,8 +11,7 @@ export const PageHeader = ({ title, buttonText, onButtonClick }) => {
           variant="secondary"
           size="small"
           onClick={onButtonClick}
-        >
-          {buttonText}
+        > {buttonText}
         </Button>
       )}
     </div>
