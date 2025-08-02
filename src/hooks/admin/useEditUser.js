@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../../api/axios"; // Your actual axios instance
+import api from "../../api/axios";
 
 export const useEditUser = (userId) => {
   const [user, setUser] = useState({
-    fullName: "",
+    name: "",
     email: "",
-    phoneNumber: "",
-    role: "",
-    logisticCenter: "",
+    phone: "",
+    roleId: "",
+    logisticCenterId: "",
   });
   const [roleOptions, setRoleOptions] = useState([]);
   const [logisticCenterOptions, setLogisticCenterOptions] = useState([]);
@@ -19,25 +19,30 @@ export const useEditUser = (userId) => {
 
   const navigate = useNavigate();
 
-  // Fetch data via backend API
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       setApiError(null);
       try {
-        // Backend endpoints must exist and return the required data formats
-        const userRes = await api.get(`/edituser/${userId}`);
+        // Fixed API calls to match your backend
+        const userRes = await api.get(`/users/${userId}`);
         const rolesRes = await api.get("/roles");
         const centersRes = await api.get("/logistic-centers");
 
+        console.log("User data:", userRes.data);
+        console.log("Roles:", rolesRes.data);
+        console.log("Centers:", centersRes.data);
+
+        // Map User entity to form fields
         setUser({
-          fullName: userRes.data.fullName || "",
+          name: userRes.data.name || "",
           email: userRes.data.email || "",
-          phoneNumber: userRes.data.phoneNumber || "",
-          role: userRes.data.role || "",
-          logisticCenter: userRes.data.logisticCenter || "",
+          phone: userRes.data.phone || "",
+          roleId: userRes.data.roleId?.id || "",
+          logisticCenterId: userRes.data.logisticCenterId?.id || "",
         });
 
+        // Map roles to select options
         setRoleOptions([
           { value: "", label: "Select Role" },
           ...(rolesRes.data.map((role) => ({
@@ -46,14 +51,16 @@ export const useEditUser = (userId) => {
           })) || [])
         ]);
 
+        // Map centers to select options
         setLogisticCenterOptions([
           { value: "", label: "Select Center" },
           ...(centersRes.data.map((center) => ({
             value: center.id,
-            label: `${center.name} - ${center.city}`,
+            label: center.name,
           })) || [])
         ]);
       } catch (err) {
+        console.error("Error fetching data:", err);
         setApiError(err.response?.data?.message || err.message || "Failed to load data");
       } finally {
         setLoading(false);
@@ -65,23 +72,13 @@ export const useEditUser = (userId) => {
     }
   }, [userId]);
 
-  // Validation logic
   const validateForm = () => {
     const newErrors = {};
-    if (!user.fullName.trim()) newErrors.fullName = "Full name is required";
-    else if (user.fullName.length < 3 || user.fullName.length > 50)
-      newErrors.fullName = "Full name must be 3 to 50 characters";
-
+    if (!user.name.trim()) newErrors.name = "Name is required";
     if (!user.email.trim()) newErrors.email = "Email is required";
-    else if (!/\S+@\S+\.\S+/.test(user.email))
-      newErrors.email = "Email must be a valid address";
-
-    if (!user.phoneNumber.trim()) newErrors.phoneNumber = "Phone number is required";
-    else if (!/^\+?\d{7,15}$/.test(user.phoneNumber))
-      newErrors.phoneNumber = "Phone number must be valid";
-
-    if (!user.role) newErrors.role = "Role is required";
-    if (!user.logisticCenter) newErrors.logisticCenter = "Logistic center is required";
+    if (!user.phone.trim()) newErrors.phone = "Phone is required";
+    if (!user.roleId) newErrors.roleId = "Role is required";
+    if (!user.logisticCenterId) newErrors.logisticCenterId = "Logistic center is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -110,23 +107,25 @@ export const useEditUser = (userId) => {
     setErrors({});
     setApiError(null);
     try {
-      // You must implement the edit endpoint in your backend
-      await api.put(`/edituser/${userId}`, user);
-      // Optionally, show a toast or success state
-      navigate("/users");
+      // Convert to UpdateUserDto format
+      const updateData = {
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        roleId: parseInt(user.roleId),
+        logisticCenterId: parseInt(user.logisticCenterId),
+      };
+
+      await api.put(`/users/edit/${userId}`, updateData);
+      navigate("/admin"); // Navigate back to user list
     } catch (err) {
+      console.error("Error updating user:", err);
       setApiError(err.response?.data?.message || err.message || "Failed to update user");
     } finally {
       setSaving(false);
     }
   };
 
-  const resetForm = () => {
-    setErrors({});
-    // Optionally re-fetch or reset user to the last loaded data
-  };
-
-//   setLoading(false);
   return {
     user,
     setUser,
@@ -138,6 +137,5 @@ export const useEditUser = (userId) => {
     saving,
     handleChange,
     handleSubmit,
-    resetForm,
   };
 };

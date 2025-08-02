@@ -1,4 +1,4 @@
-export const Select = ({ label, value, onChange, options, error, disabled }) => {
+export const Select = ({ label, name, value, onChange, options, error, disabled }) => {
   const selectId = `select-${Math.random().toString(36).substr(2, 9)}`;
   
   return (
@@ -11,6 +11,7 @@ export const Select = ({ label, value, onChange, options, error, disabled }) => 
       </label>
       <select
         id={selectId}
+        name={name} // Add this line
         value={value}
         onChange={onChange}
         disabled={disabled}

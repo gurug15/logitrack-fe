@@ -39,7 +39,9 @@ const UserDashboard = () => {
   console.log('recentOrders:', recentOrders);
 
   const handleViewOrder = (orderId) => {
+
     navigate(`/dashboard/orders/${orderId}`);
+
   };
 
   const handleCreateOrder = () => {

@@ -22,9 +22,10 @@ export const UserTable = ({ users, onUserClick }) => {
       render: (role) => <StatusBadge status={role} />
     },
     {
-      key: 'center',
-      header: 'Associated Logistics Center',
-      width: 'w-[400px]'
+      key: 'logisticCenter',
+      header: 'Logistics Center',
+      width: 'w-[400px]',
+      
     },
     {
       key: 'actions',
