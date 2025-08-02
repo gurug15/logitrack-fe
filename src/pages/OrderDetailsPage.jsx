@@ -1,67 +1,45 @@
+import { useParams } from "react-router-dom";  // to get orderId from URL
 import { DataTable } from "../components/tabels/DataTable";
+import { useOrderDetails } from '../hooks/user/useUserDashboardData';
 
 const OrderDetailsPage = () => {
-  // Sample order data
-  const orderItems = [
-    {
-      itemName: 'Wireless Mouse',
-      quantity: 2,
-      unitPrice: '₹ 500',
-      total: '₹ 1,000'
-    },
-    {
-      itemName: 'Keyboard',
-      quantity: 1,
-      unitPrice: '₹ 800',
-      total: '₹ 800'
-    },
-    {
-      itemName: 'Monitor',
-      quantity: 1,
-      unitPrice: '₹ 700',
-      total: '₹ 700'
-    }
-  ];
+  // Get orderId route param
+  const { orderId } = useParams();
 
-  // Define columns for the DataTable
+  // Use hook inside the component with orderId
+  const { orderDetails, items, isLoading, error, refresh } = useOrderDetails(orderId);
+
+  // Log items to debug structure
+  console.log('Order items:', items);
+  const orderItems = items.length > 0 ? items : [];
+
   const columns = [
-    {
-      key: 'itemName',
-      header: 'Item Name',
-      primary: true,
-      width: 'w-[400px]'
-    },
-    {
-      key: 'quantity',
-      header: 'Quantity',
-      width: 'w-[400px]'
-    },
-    {
-      key: 'unitPrice',
-      header: 'Unit Price',
-      width: 'w-[400px]'
-    },
-    {
-      key: 'total',
-      header: 'Total',
-      width: 'w-[400px]'
-    }
+    { key: 'productName', header: 'Item Name', primary: true, width: 'w-[400px]' },
+    { key: 'quantity', header: 'Quantity', width: 'w-[400px]' },
+    { key: 'price', header: 'Unit Price', width: 'w-[400px]' },
+    { key: 'total', header: 'Total', width: 'w-[400px]' }
   ];
 
   const handleRowClick = (row) => {
     console.log('Clicked row:', row);
   };
 
+  if (isLoading) return <div>Loading order details...</div>;
+  if (error) return <div>Error: {error}</div>;
+
   return (
     <div className="relative flex size-full min-h-screen flex-col bg-white group/design-root overflow-x-hidden" style={{fontFamily: '"Work Sans", "Noto Sans", sans-serif'}}>
       <div className="layout-container flex h-full grow flex-col">
         <div className="px-40 flex flex-1 justify-center py-5">
           <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
+
             {/* Order Header */}
             <div className="flex flex-wrap justify-between gap-3 p-4">
               <div className="flex min-w-72 flex-col gap-3">
-                <p className="text-[#111318] tracking-light text-[32px] font-bold leading-tight">Order #12345</p>
-                <p className="text-[#606e8a] text-sm font-normal leading-normal">Placed on 15th May 2024</p>
+                <p className="text-[#111318] tracking-light text-[32px] font-bold leading-tight">Order #{orderDetails?.id ?? orderId}</p>
+                <p className="text-[#606e8a] text-sm font-normal leading-normal">
+                  Placed on {orderDetails?.placedDate ?? 'N/A'}
+                </p>
               </div>
             </div>
 
@@ -69,11 +47,10 @@ const OrderDetailsPage = () => {
             <div className="p-4">
               <div className="flex items-stretch justify-between gap-4 rounded-lg">
                 <div className="flex flex-col gap-1 flex-[2_2_0px]">
-                  <p className="text-[#606e8a] text-sm font-normal leading-normal">Status: Shipped</p>
+                  <p className="text-[#606e8a] text-sm font-normal leading-normal">Status: {orderDetails?.status ?? 'N/A'}</p>
                   <p className="text-[#111318] text-base font-bold leading-tight">Order Summary</p>
-                  <p className="text-[#606e8a] text-sm font-normal leading-normal">Total: ₹ 2,500</p>
+                  <p className="text-[#606e8a] text-sm font-normal leading-normal">Total: ₹ {orderDetails?.totalAmount || orderDetails?.totalamount || orderDetails?.total_price || orderDetails?.totalprice || 'N/A'}</p>
                 </div>
-                {/* <div className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg flex-1 bg-gray-100"></div> */}
               </div>
             </div>
 
@@ -83,17 +60,16 @@ const OrderDetailsPage = () => {
                 <div className="flex flex-col gap-1 flex-[2_2_0px]">
                   <p className="text-[#111318] text-base font-bold leading-tight">Customer Information</p>
                   <div className="text-[#606e8a] text-sm font-normal leading-normal space-y-1">
-                    <p><span className="font-medium">Name:</span> Rohan Verma</p>
-                    <p><span className="font-medium">Phone:</span> +91 9876543210</p>
-                    <p><span className="font-medium">Email:</span> rohan.verma@example.com</p>
-                    <p><span className="font-medium">Address:</span> 123, Main Street, Sector 15</p>
-                    <p><span className="font-medium">City:</span> Gurgaon</p>
-                    <p><span className="font-medium">State:</span> Haryana</p>
-                    <p><span className="font-medium">Postal Code:</span> 122001</p>
-                    <p><span className="font-medium">Country:</span> India</p>
+                    <p><span className="font-medium">Name:</span> {orderDetails?.customername ?? 'N/A'}</p>
+                    <p><span className="font-medium">Phone:</span> {orderDetails?.customerphone ?? 'N/A'}</p>
+                    <p><span className="font-medium">Email:</span> {orderDetails?.customeremail ?? 'N/A'}</p>
+                    <p><span className="font-medium">Address:</span> {orderDetails?.customeraddress ?? 'N/A'}</p>
+                    <p><span className="font-medium">City:</span> {orderDetails?.customercity || orderDetails?.city || 'N/A'}</p>
+                    <p><span className="font-medium">State:</span> {orderDetails?.customerstate || orderDetails?.state || 'N/A'}</p>
+                    <p><span className="font-medium">Postal Code:</span> {orderDetails?.customerpostalcode || orderDetails?.postalcode || 'N/A'}</p>
+                    <p><span className="font-medium">Country:</span> {orderDetails?.customercountry || orderDetails?.country || 'N/A'}</p>
                   </div>
                 </div>
-                {/* <div className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg flex-1 bg-gray-100"></div> */}
               </div>
             </div>
 
@@ -102,12 +78,16 @@ const OrderDetailsPage = () => {
               Ordered Items
             </h2>
             
-            {/* Using the DataTable component */}
-            <DataTable 
-              columns={columns}
-              data={orderItems}
-              onRowClick={handleRowClick}
-            />
+            {orderItems.length > 0 ? (
+              <DataTable 
+                columns={columns}
+                data={orderItems}
+                onRowClick={handleRowClick}
+              />
+            ) : (
+              <div className="px-4 py-2 text-[#606e8a]">No items found for this order.</div>
+            )}
+            
           </div>
         </div>
       </div>
