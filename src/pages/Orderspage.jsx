@@ -71,7 +71,7 @@ const OrdersPage = () => {
         <button 
           onClick={(e) => {
             e.stopPropagation(); // Prevent row click
-            handleViewOrder(row.orderId);
+            handleViewOrder(row.id);
           }}
           className="text-[#687282] hover:text-[#1b5ff3] transition-colors font-bold tracking-[0.015em]"
         >

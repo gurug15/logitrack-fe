@@ -50,6 +50,7 @@ const UserDashboard = () => {
   ];
 
   const handleViewOrder = (orderId) => {
+    navigate(`/dashboard/orders/${orderId}`)
     console.log('View order:', orderId);
   };
 

@@ -1,11 +1,14 @@
 
+import { useParams } from "react-router-dom";
 import { Breadcrumb } from "../../components/admin/BreadCrumb";
 import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
 import { Select } from "../../components/ui/Select";
 import { useEditUser } from "../../hooks/admin/useEditUser";
 
-const EditUserPage = ({ userId }) => {
+const EditUserPage = () => {
+  const { userId } = useParams(); // <-- Correct way to get param
+
   const {
     user,
     roleOptions,
@@ -17,6 +20,7 @@ const EditUserPage = ({ userId }) => {
     handleChange,
     handleSubmit,
   } = useEditUser(userId);
+
 
 
 
@@ -36,13 +40,14 @@ const EditUserPage = ({ userId }) => {
         {apiError && (
           <p className="text-red-600 text-center font-medium">{apiError}</p>
         )}
+        // Update the form fields to match your DTO:
         <Input
-          label="Full Name"
-          name="fullName"
-          value={user.fullName}
+          label="Name"
+          name="name"
+          value={user.name}
           onChange={handleChange}
-          placeholder="Enter full name"
-          error={errors.fullName}
+          placeholder="Enter name"
+          error={errors.name}
           disabled={saving}
         />
         <Input
@@ -57,30 +62,30 @@ const EditUserPage = ({ userId }) => {
         />
         <Input
           label="Phone Number"
-          name="phoneNumber"
+          name="phone"
           type="tel"
-          value={user.phoneNumber}
+          value={user.phone}
           onChange={handleChange}
           placeholder="Enter phone number"
-          error={errors.phoneNumber}
+          error={errors.phone}
           disabled={saving}
         />
         <Select
           label="Role"
-          name="role"
-          value={user.role}
+          name="roleId"
+          value={user.roleId}
           onChange={handleChange}
           options={roleOptions}
-          error={errors.role}
+          error={errors.roleId}
           disabled={saving}
         />
         <Select
           label="Logistic Center Assignment"
-          name="logisticCenter"
-          value={user.logisticCenter}
+          name="logisticCenterId"
+          value={user.logisticCenterId}
           onChange={handleChange}
           options={logisticCenterOptions}
-          error={errors.logisticCenter}
+          error={errors.logisticCenterId}
           disabled={saving}
         />
         <div className="flex justify-end gap-3">

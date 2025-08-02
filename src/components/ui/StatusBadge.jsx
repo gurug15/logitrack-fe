@@ -1,6 +1,8 @@
 export const StatusBadge = ({ status }) => {
   const getStatusColor = (status) => {
-    switch ((status || "").toLowerCase()) {
+    // Convert to string and then toLowerCase to handle any data type
+    const statusStr = String(status || "").toLowerCase();
+    switch (statusStr) {
       case 'delivered':
         return 'bg-green-100 text-green-800';
       case 'in transit':
@@ -9,6 +11,10 @@ export const StatusBadge = ({ status }) => {
         return 'bg-yellow-100 text-yellow-800';
       case 'failed':
         return 'bg-red-100 text-red-800';
+      case 'user':
+        return 'bg-purple-100 text-purple-800';
+      case 'admin':
+        return 'bg-orange-100 text-orange-800';
       default:
         return 'bg-[#f1f2f4] text-[#121417]';
     }
@@ -16,7 +22,7 @@ export const StatusBadge = ({ status }) => {
 
   return (
     <button className={`flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-8 px-4 text-sm font-medium leading-normal w-full ${getStatusColor(status)}`}>
-      <span className="truncate">{status}</span>
+      <span className="truncate">{String(status || 'Unknown')}</span>
     </button>
   );
 };
