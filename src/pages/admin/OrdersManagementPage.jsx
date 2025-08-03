@@ -9,12 +9,12 @@ import { Link } from "react-router-dom";
 const OrdersDashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeFilters, setActiveFilters] = useState({
-    status: false,
-    date: false,
-    vendor: false,
-    customer: false
-  });
+  // const [activeFilters, setActiveFilters] = useState({
+  //   status: false,
+  //   date: false,
+  //   vendor: false,
+  //   customer: false
+  // });
 
   console.log(searchQuery);
 
@@ -69,12 +69,12 @@ const OrdersDashboard = () => {
     console.log('Clicked row:', row);
   };
 
-  const handleFilterClick = (filterType) => {
-    setActiveFilters(prev => ({
-      ...prev,
-      [filterType]: !prev[filterType]
-    }));
-  };
+  // const handleFilterClick = (filterType) => {
+  //   setActiveFilters(prev => ({
+  //     ...prev,
+  //     [filterType]: !prev[filterType]
+  //   }));
+  // };
 
   return (
     <div>
@@ -96,7 +96,7 @@ const OrdersDashboard = () => {
             </div>
             
             {/* Filter Buttons */}
-            <div className="flex gap-3 p-3 flex-wrap pr-4">
+            {/* <div className="flex gap-3 p-3 flex-wrap pr-4">
               <FilterButton 
                 onClick={() => handleFilterClick('status')} 
                 isActive={activeFilters.status}
@@ -121,7 +121,7 @@ const OrdersDashboard = () => {
               >
                 Customer
               </FilterButton>
-            </div>
+            </div> */}
             
             {/* Data Table */}
             <DataTable 
