@@ -17,6 +17,8 @@ const OrdersDashboard = () => {
   // });
 
   console.log(searchQuery);
+  console.log("adas");
+  
 
   // Sample data
   const ordersData = [
