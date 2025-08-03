@@ -23,7 +23,6 @@ export const AdminHeader = () => {
       </div>
       <div className="flex flex-1 justify-end gap-8">
         <div className="flex items-center gap-9">
-          <Link className="text-[#121417] text-sm font-medium leading-normal" to="/admin">Dashboard</Link>
           <Link className="text-[#121417] text-sm font-medium leading-normal" to="/admin/orders">Orders</Link>
           <Link className="text-[#121417] text-sm font-medium leading-normal" to="/admin">Users</Link>
           <Link className="text-[#121417] text-sm font-medium leading-normal" to="/admin/centers">Centers</Link>

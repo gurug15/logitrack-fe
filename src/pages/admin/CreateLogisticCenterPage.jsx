@@ -16,7 +16,7 @@ const CreateLogisticCenterPage = () => {
   const breadcrumbItems = [
     { label: "Admin", link: "/admin" },
     { label: "Centers", link: "/admin/centers" },
-    { label: "Create New Logistic Center" },
+    { label: "Create New Center" },
   ];
 
   // Example options for State and Subadmin/Manager selects
@@ -82,8 +82,6 @@ const CreateLogisticCenterPage = () => {
                 onChange={handleChange}
                 value=""
                 type="textarea"
-                // If your FormInput doesn't support textarea, you can create a separate Textarea component or extend it.
-                // For now, you can manage it per your implementation.
               />
 
               <Input

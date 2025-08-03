@@ -44,7 +44,7 @@
         
         <PageHeader 
           title="User Management" 
-          buttonText="Add User"
+          buttonText=""
           onButtonClick={handleAddUser}
         />
         
