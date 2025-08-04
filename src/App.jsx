@@ -17,6 +17,7 @@ import CenterManagement from "./pages/admin/CenterMmanagement"
 import CreateLogisticCenterPage from "./pages/admin/CreateLogisticCenterPage"
 import OrdersDashboard from "./pages/admin/OrdersDashboard"
 import EditUserPage from "./pages/admin/EditUserPage"
+import ShipmentsPage from "./pages/subadmin/ShipmentPage"
 
 
 
@@ -55,6 +56,13 @@ function App() {
             <Route path="orders" element={<OrdersDashboard />} />
             <Route path="user/:userId" element={<EditUserPage />} />
             <Route path="orders/:orderId" element={<OrderDetailsPage />} />
+          </Route>
+        </Route>
+
+        {/* --- Subadmin part --- */}
+        <Route>
+          <Route path="/center" element={<AdminLayout />}>
+            <Route index element={<ShipmentsPage/>}/>
           </Route>
         </Route>
 

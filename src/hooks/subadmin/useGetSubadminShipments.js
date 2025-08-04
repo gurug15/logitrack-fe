@@ -14,8 +14,7 @@ export const useGetSubadminShipments = () => {
             setIsLoading(true);
             setError(null);
             try {
-                // This endpoint securely gets shipments for the logged-in user
-                const response = await api.get('/shipments/subadmin/center');
+                const response = await api.get('/shipments/my-center');
                 setShipments(response.data);
             } catch (err) {
                 setError(err.response?.data?.message || 'Failed to fetch shipments.');

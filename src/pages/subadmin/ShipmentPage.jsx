@@ -1,9 +1,9 @@
 import React from 'react';
-import { useGetSubadminShipments } from '../../hooks/shipments/useGetSubadminShipments'; // Adjust path
-import { DataTable } from '../../components/tabels/DataTable'; // Reusable component
-import { SearchBar } from '../../components/ui/SearchBar'; // Reusable component
-import { Pagination } from '../../components/ui/Pagination'; // Reusable component
-import { StatusBadge } from '../../components/ui/StatusBadge'; // Reusable component
+import { useGetSubadminShipments } from '../../hooks/subadmin/useGetSubadminShipments';
+import SearchBar from '../../components/ui/SearchBar';
+import { DataTable } from '../../components/tabels/DataTable';
+import Pagination from '../../components/ui/Pagination';
+import { StatusBadge } from '../../components/ui/StatusBadge';
 
 const ShipmentsPage = () => {
     // const navigate = useNavigate();
