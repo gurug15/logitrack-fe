@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import api from '../../api/axios';
+import { useAuth } from './useAuth';
 
 export const useLogin = () => {
-
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -15,7 +14,6 @@ export const useLogin = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   
-  const navigate = useNavigate();
 
 
   const validateForm = () => {
@@ -58,18 +56,10 @@ export const useLogin = () => {
   };
 
 
-  const loginAPI = async (credentials) => {
-  try {
-    const response = await api.post('/login', credentials);
-    return response.data;
-  } catch (error) {
-    throw new Error(error.message || 'Login failed');
-  }
-}
-  const handleSubmit = async (e) => {
+// REPLACE your old handleSubmit with this new one
+const handleSubmit = async (e) => {
     e.preventDefault();
     
-   
     if (!validateForm()) {
       return;
     }
@@ -78,23 +68,21 @@ export const useLogin = () => {
     setErrors({}); 
     
     try {
-     
-      const response = await loginAPI(formData);
-      console.log(response)
-      
-      localStorage.setItem('token', response);
-      // resetForm();
-      navigate('/');
+      // This one line replaces all the old logic.
+      // It calls our AuthContext to do the hard work of logging in,
+      // saving the token, and navigating.
+      await login(formData.email, formData.password);
       
     } catch (error) {
-   
+      // If the login fails, the context will throw an error
+      // which we can catch here and show on the form.
       setErrors({ 
-        submit: error.message || 'Something went wrong. Please try again.' 
+        submit: error.response?.data?.message || error.response?.data || 'Invalid email or password.' 
       });
     } finally {
       setIsLoading(false);
     }
-  };
+};
 
 
   const resetForm = () => {

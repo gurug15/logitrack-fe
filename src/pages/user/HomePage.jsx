@@ -1,5 +1,5 @@
-import HeroSection from "../components/ui/homepage/HeroSection";
-import ServicesSection from "../components/ui/homepage/ServiceSection";
+import HeroSection from "../../components/ui/homepage/HeroSection";
+import ServicesSection from "../../components/ui/homepage/ServiceSection";
 
 
 const HomePage = () => {

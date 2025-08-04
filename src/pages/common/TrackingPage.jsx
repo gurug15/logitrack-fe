@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import TrackingInput from '../components/ui/TrackingInput';
-import ProgressTracker from '../components/ui/ProgressTracker';
-import PackageDetails from '../components/ui/PackageDetails';
+import TrackingInput from '../../components/ui/TrackingInput';
+import ProgressTracker from '../../components/ui/ProgressTracker';
+import PackageDetails from '../../components/ui/PackageDetails';
 
 const TrackingPage = () => {
   const [trackingData, setTrackingData] = useState(null);

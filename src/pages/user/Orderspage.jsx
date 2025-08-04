@@ -1,11 +1,11 @@
 import React from 'react';
-import Pagination from '../components/ui/Pagination';
-import Button from '../components/ui/Button';
-import SearchBar from '../components/ui/SearchBar';
+import Pagination from '../../components/ui/Pagination';
+import Button from '../../components/ui/Button';
+import SearchBar from '../../components/ui/SearchBar';
 import { Link, useNavigate } from 'react-router-dom';
-import { useGetOrders } from '../hooks/orders/useGetOrders';
-import { StatusBadge } from '../components/ui/StatusBadge';
-import { DataTable } from '../components/tabels/DataTable';
+import { useGetOrders } from '../../hooks/orders/useGetOrders';
+import { StatusBadge } from '../../components/ui/StatusBadge';
+import { DataTable } from '../../components/tabels/DataTable';
 
 // Main Orders Page Component
 const OrdersPage = () => {

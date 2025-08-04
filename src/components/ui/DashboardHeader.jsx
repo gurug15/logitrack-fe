@@ -5,8 +5,7 @@ const DashboardHeader = () => {
     { label: "Dashboard", href: "/dashboard" },
     { label: "Shipments", href: "/shipments" },
     { label: "Orders", href: "/dashboard/orders" },
-    { label: "Customers", href: "#" },
-    { label: "Reports", href: "#" }
+    { label: "Customers", href: "#" }
   ];
 
   const profileImageUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuANCij5D4Hgixdp2wGya2wPTbM6WTnA4SG9kaMelqanJz4T5phOmYLAU1B4szrRVJ09dMnoVRTvwQSXHN4y4Mv61P2RRR4-7dX7FuStriAPaVG7PCQByL30jdCd136JRA_JW573W6JUkVJ85SFDm8Un5_Vxcq3rf09hg5ZqnjrC5upkQcVs8dLVa3XbYdqHtvqzKpkKhgTixMi9bJqkbpxRa8PVGnQ7e8cjBq1TvC63p_kICmxvUVaeNSgFfMaCfNwTRqnA9f4ttWY";

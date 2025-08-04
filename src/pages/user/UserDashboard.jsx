@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import Button from "../components/ui/Button";
-import { useUserDashboardData } from "../hooks/user/useUserDashboardData";
+import Button from "../../components/ui/Button";
+import { useUserDashboardData } from "../../hooks/user/useUserDashboardData";
 
 const StatCard = ({ title, value }) => (
   <div className="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 bg-[#f0f1f5]">
@@ -35,7 +35,7 @@ const UserDashboard = () => {
 
   // Move userId & hook call inside component
   const userId = "5";  //this is hardcoded value.
-  const { stats, recentOrders, isLoading, error, refreshDashboardData } = useUserDashboardData(userId);
+  const { stats, recentOrders,  error } = useUserDashboardData(userId);
   console.log('recentOrders:', recentOrders);
 
   const handleViewOrder = (orderId) => {
@@ -48,13 +48,13 @@ const UserDashboard = () => {
     navigate("/dashboard/orders/createOrder");
   };
 
-  const handleManageReturns = () => {
-    console.log('Manage returns');
-  };
+  // const handleManageReturns = () => {
+  //   console.log('Manage returns');
+  // };
 
-  const handleSupport = () => {
-    console.log('Support');
-  };
+  // const handleSupport = () => {
+  //   console.log('Support');
+  // };
 
   // if (isLoading) return <div>Loading dashboard...</div>;
   if (error) return <div>Error: {error}</div>;

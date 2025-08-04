@@ -1,13 +1,13 @@
 import { useParams } from "react-router-dom";  // to get orderId from URL
-import { DataTable } from "../components/tabels/DataTable";
-import { useOrderDetails } from '../hooks/user/useUserDashboardData';
+import { DataTable } from "../../components/tabels/DataTable";
+import { useOrderDetails } from '../../hooks/user/useUserDashboardData';
 
 const OrderDetailsPage = () => {
   // Get orderId route param
   const { orderId } = useParams();
 
   // Use hook inside the component with orderId
-  const { orderDetails, items, isLoading, error, refresh } = useOrderDetails(orderId);
+  const { orderDetails, items, isLoading, error } = useOrderDetails(orderId);
 
   // Log items to debug structure
   console.log('Order items:', items);
