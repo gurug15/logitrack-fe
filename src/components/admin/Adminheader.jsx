@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import ProfileModal from "../ui/ProfileModal";
 
 export const AdminHeader = () => {
+  const [modalOpen, setModalOpen] = useState(false);
   return (
     <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f1f2f4] px-10 py-3">
       <div className="flex items-center gap-4 text-[#121417]">
@@ -39,7 +42,11 @@ export const AdminHeader = () => {
           style={{
             backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuDun_pZ19KJ36Nawxh5ITvx63NutwDi5q8Uj-sYfPizADy5VzbqSWkNCCkn9kgtIWB9AiS4tTk7JPn_fchSrxu2_yMnPoAzypRlzKqjfNcDJilKx9WHWw1IN7D2ipC6MvziY9URgEIOxmpZiMzpNPHsuRgR9BBT-7qTdLMEIz9FUldcvpUXmcrNBldU04NJNSTPbGytU2s4SYk-dPc5FOvKwJuyK0ZBbdQjG1taSYbdQH9yPqwgbk4HQR2dolaMT8uDN793osvVQvQ")'
           }}
+          onClick={() => setModalOpen(true)}
         />
+        {modalOpen && (
+          <ProfileModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+        )}
       </div>
     </header>
   );
