@@ -15,7 +15,7 @@ export const Select = ({ label, name, value, onChange, options, error, disabled 
         value={value}
         onChange={onChange}
         disabled={disabled}
-        className={`form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#121416] focus:outline-0 focus:ring-0 border bg-white h-14 p-[15px] text-base font-normal leading-normal ${
+        className={`form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#121416] focus:outline-0 focus:ring-0 border bg-white h-11 p-[7px] text-base font-normal leading-normal ${
           error
             ? 'border-red-500 focus:border-red-500'
             : 'border-[#dde0e3] focus:border-[#dde0e3]'

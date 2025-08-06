@@ -3,9 +3,10 @@ import signupsvg from '../../assets/authpage/signup.png'; // still using this im
 import { Link } from 'react-router-dom';
 import Input from '../../components/ui/Input';
 import { useSignUp } from '../../hooks/auth/useSignup';
+import { Select } from '../../components/ui/Select';
 
 const Signup = () => {
- const {user,errors,isLoading,handleChange,handleSubmit} = useSignUp();
+ const {user,errors,isLoading,centers,handleChange,handleSubmit} = useSignUp();
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -21,6 +22,16 @@ const Signup = () => {
                                 {errors.submit}
                             </div>
               )}
+
+            <Select
+                    label="Nearest Logistic Center"
+                    name="logisticCenterId"
+                    value={user.logisticCenterId}
+                    onChange={handleChange}
+                    options={centers} // Pass the formatted options array
+                    error={errors.logisticCenterId}
+                    disabled={isLoading}
+                />
           <Input
             label="Full Name"
             name="name"

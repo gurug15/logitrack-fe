@@ -46,10 +46,11 @@ export const  AuthProvider = ({ children }) => {
 
             api.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
 
-            // Navigate based on role
             if (decodedUser.role === 'admin') {
                 navigate('/admin');
-            } else {
+            } else if (decodedUser.role === 'sub_admin') { 
+                navigate('/subadmin');
+            } else { // This will handle the 'user' role
                 navigate('/dashboard');
             }
         } catch (error) {

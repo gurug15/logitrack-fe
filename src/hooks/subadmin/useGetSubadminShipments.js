@@ -26,6 +26,7 @@ export const useGetSubadminShipments = () => {
         fetchShipments();
     }, []);
 
+    console.log(shipments)
     // Filter shipments by Tracking ID
     const filteredShipments = shipments.filter(shipment =>
         shipment.trackingId?.toLowerCase().includes(searchQuery.toLowerCase())

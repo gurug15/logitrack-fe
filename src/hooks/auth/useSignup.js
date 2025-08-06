@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/axios";
 
@@ -10,13 +10,32 @@ export const useSignUp = ()=>{
         email: '',
         password: '',
         phone: '',
+        logisticCenterId: ''
       });
+    const [centers, setCenters] = useState([]); 
     const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
 
-    console.log("before validation")
+     useEffect(() => {
+        const fetchCenters = async () => {
+            try {
+                const response = await api.get('/logistic-centers');
+                // Add a disabled "placeholder" option to the start of the array
+                const formattedCenters = response.data.map(center => ({
+                    value: center.id,
+                    label: center.name
+                }));
+
+                setCenters([{ id: '', name: 'Select your nearest center' }, ...formattedCenters]);
+            } catch (error) {
+                console.error("Failed to fetch logistic centers", error);
+                setErrors(prev => ({ ...prev, submit: 'Could not load centers.' }));
+            }
+        };
+        fetchCenters();
+    }, []); 
     const validateForm = () => {
           const newErrors = {};
 
@@ -38,7 +57,11 @@ export const useSignUp = ()=>{
           } else if (!/^[6-9]\d{9}$/.test(user.phone)) {
             newErrors.phone = 'Please enter a valid phone number';
           }
-        
+          
+          if (!user.logisticCenterId) {
+            newErrors.logisticCenterId = 'Please select your logistic center';
+           }
+
           if (!user.password) {
             newErrors.password = 'Password is required';
           } else if (user.password.length < 6) {
@@ -116,6 +139,7 @@ console.log("user data: ",user )
 
   return {
     user,
+    centers,
     errors,
     isLoading,
     handleChange,

@@ -18,6 +18,8 @@ import CreateLogisticCenterPage from "./pages/admin/CreateLogisticCenterPage"
 import OrdersDashboard from "./pages/admin/OrdersDashboard"
 import EditUserPage from "./pages/admin/EditUserPage"
 import ShipmentsPage from "./pages/subadmin/ShipmentPage"
+import IncomingOrdersPage from "./pages/subadmin/IncomingOrdersPage"
+import SubAdminLayout from "./components/subadmin/SubadminLayout"
 
 
 
@@ -59,12 +61,15 @@ function App() {
           </Route>
         </Route>
 
-        {/* --- Subadmin part --- */}
-        <Route>
-          <Route path="/center" element={<AdminLayout />}>
-            <Route index element={<ShipmentsPage/>}/>
+        {/* --- Protected Sub-Admin Only Routes --- */}
+        <Route element={<ProtectedRoute allowedRoles={['sub_admin']} />}>
+          {/* We use AdminLayout here as you did, you can create a specific SubAdminLayout later if needed */}
+          <Route path="/subadmin" element={<SubAdminLayout />}> 
+            <Route index element={<IncomingOrdersPage />} /> {/* The new landing page */}
+            <Route path="shipments" element={<ShipmentsPage />} /> {/* The page you already built */}
           </Route>
         </Route>
+
 
         {/* --- Catch-all 404 Route --- */}
         <Route path="*" element={<ErrorPage404 />} />

@@ -40,7 +40,6 @@ const EditUserPage = () => {
         {apiError && (
           <p className="text-red-600 text-center font-medium">{apiError}</p>
         )}
-        // Update the form fields to match your DTO:
         <Input
           label="Name"
           name="name"

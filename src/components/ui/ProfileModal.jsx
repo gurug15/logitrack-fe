@@ -1,107 +1,72 @@
-import React, { useState } from 'react';
-import { useAuth } from '../../hooks/auth/useAuth';
-import Button from './Button';
-import Input from './Input';
-import axios from '../../api/axios';
+import { useUserProfile } from "../../hooks/user/useUserProfile";
+import Button from "./Button";
+import Input from "./Input";
+
+
+// A small helper component for displaying profile fields
+const ProfileField = ({ label, value, name, isEditing, onChange }) => (
+    <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-500">{label}</label>
+        {isEditing ? (
+            <Input
+                name={name}
+                value={value}
+                onChange={onChange}
+                className="mt-1" // Add any specific styling needed
+            />
+        ) : (
+            <div className="w-full p-2 mt-1 bg-gray-100 rounded-md text-gray-800">
+                {value || '-'}
+            </div>
+        )}
+    </div>
+);
 
 const ProfileModal = ({ isOpen, onClose }) => {
-  const { user, role } = useAuth();
-  const [showReset, setShowReset] = useState(false);
-  const [oldPassword, setOldPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+    const { profile, isLoading, error, isEditing, formData, logout, handleEditToggle, handleChange, handleSave } = useUserProfile(isOpen);
 
-  if (!isOpen) return null;
+    if (!isOpen) return null;
 
-  const handleResetPassword = async (e) => {
-    e.preventDefault();
-    setError('');
-    setSuccess('');
-    if (newPassword !== confirmPassword) {
-      setError('New passwords do not match.');
-      return;
-    }
-    setLoading(true);
-    try {
-      // Adjust endpoint as per your backend
-      await axios.post('/auth/reset-password', {
-        userId: user?._id,
-        oldPassword,
-        newPassword,
-      });
-      setSuccess('Password reset successful!');
-      setOldPassword('');
-      setNewPassword('');
-      setConfirmPassword('');
-      setShowReset(false);
-    } catch (err) {
-      setError(err.response?.data?.message || 'Password reset failed.');
-    } finally {
-      setLoading(false);
-    }
-  };
+    return (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+            <div className="bg-white rounded-lg p-6 w-full max-w-md shadow-xl relative">
+                <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-2xl font-bold text-gray-800">User Profile</h2>
+                    <button onClick={onClose} className="text-2xl text-gray-500 hover:text-gray-800">&times;</button>
+                </div>
 
-  return (
-    <div className="modal-overlay" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', background: 'rgba(0,0,0,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
-      <div className="modal-content" style={{ background: '#fff', borderRadius: 8, padding: 32, minWidth: 350, maxWidth: 400, boxShadow: '0 2px 16px rgba(0,0,0,0.2)', position: 'relative' }}>
-        <button onClick={onClose} style={{ position: 'absolute', top: 12, right: 12, background: 'none', border: 'none', fontSize: 20, cursor: 'pointer' }}>&times;</button>
-        <h2 style={{ marginBottom: 16 }}>Profile Information</h2>
-        <div style={{ marginBottom: 16 }}>
-          <div><b>Name:</b> {user?.name || user?.fullName}</div>
-          <div><b>Email:</b> {user?.email}</div>
-          {role === 'admin' && (
-            <>
-              <div><b>Role:</b> Admin</div>
-              <div><b>Contact:</b> {user?.contact || '-'}</div>
-            </>
-          )}
-          {role === 'subadmin' && (
-            <>
-              <div><b>Role:</b> Subadmin</div>
-              <div><b>Center:</b> {user?.centerName || '-'}</div>
-              <div><b>Contact:</b> {user?.contact || '-'}</div>
-            </>
-          )}
-        </div>
-        {showReset ? (
-          <form onSubmit={handleResetPassword} style={{ marginBottom: 16 }}>
-            <Input
-              type="password"
-              placeholder="Old Password"
-              value={oldPassword}
-              onChange={e => setOldPassword(e.target.value)}
-              required
-            />
-            <Input
-              type="password"
-              placeholder="New Password"
-              value={newPassword}
-              onChange={e => setNewPassword(e.target.value)}
-              required
-            />
-            <Input
-              type="password"
-              placeholder="Confirm New Password"
-              value={confirmPassword}
-              onChange={e => setConfirmPassword(e.target.value)}
-              required
-            />
-            {error && <div style={{ color: 'red', marginBottom: 8 }}>{error}</div>}
-            {success && <div style={{ color: 'green', marginBottom: 8 }}>{success}</div>}
-            <div style={{ display: 'flex', gap: 8 }}>
-              <Button type="submit" disabled={loading}>{loading ? 'Resetting...' : 'Reset Password'}</Button>
-              <Button type="button" onClick={() => setShowReset(false)} variant="secondary">Cancel</Button>
+                {isLoading ? (
+                    <p>Loading profile...</p>
+                ) : error ? (
+                    <p className="text-red-500">{error}</p>
+                ) : (
+                    <div>
+                        <ProfileField label="Full name" name="name" value={formData.name} isEditing={isEditing} onChange={handleChange} />
+                        <ProfileField label="Email" value={profile?.email} isEditing={false} />
+                        <ProfileField label="Phone" name="phone" value={formData.phone} isEditing={isEditing} onChange={handleChange} />
+                        <ProfileField label="Role" value={profile?.roleName} isEditing={false} />
+                        <ProfileField label="Logistic center" value={profile?.logisticCenterName} isEditing={false} />
+                        
+                        <div className="flex justify-between items-center mt-6">
+                            <Button onClick={logout} variant="secondary">Logout</Button>
+                            <div className="flex gap-2">
+                                {isEditing ? (
+                                    <>
+                                        <Button onClick={handleEditToggle} variant="secondary">Cancel</Button>
+                                        <Button onClick={handleSave} disabled={isLoading}>
+                                            {isLoading ? 'Saving...' : 'Save'}
+                                        </Button>
+                                    </>
+                                ) : (
+                                    <Button onClick={handleEditToggle}>Edit</Button>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
-          </form>
-        ) : (
-          <Button onClick={() => setShowReset(true)} style={{ marginBottom: 8 }}>Reset Password</Button>
-        )}
-      </div>
-    </div>
-  );
+        </div>
+    );
 };
 
 export default ProfileModal;
