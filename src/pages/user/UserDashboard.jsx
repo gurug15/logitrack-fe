@@ -36,7 +36,7 @@ const UserDashboard = () => {
   // Move userId & hook call inside component
   const userId = "5";  //this is hardcoded value.
   const { stats, recentOrders,  error } = useUserDashboardData(userId);
-  console.log('recentOrders:', recentOrders);
+  // console.log('recentOrders:', recentOrders);
 
   const handleViewOrder = (orderId) => {
 
