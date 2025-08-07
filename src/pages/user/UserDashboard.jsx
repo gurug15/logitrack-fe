@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/ui/Button";
 import { useUserDashboardData } from "../../hooks/user/useUserDashboardData";
+import { useAuth } from "../../hooks/auth/useAuth";
 
 const StatCard = ({ title, value }) => (
   <div className="flex min-w-[158px] flex-1 flex-col gap-2 rounded-lg p-6 bg-[#f0f1f5]">
@@ -31,11 +32,12 @@ const StatusBadge = ({ status }) => {
 };
 
 const UserDashboard = () => {
+  const {user }  = useAuth();
   const navigate = useNavigate();
 
   // Move userId & hook call inside component
-  const userId = "5";  //this is hardcoded value.
-  const { stats, recentOrders,  error } = useUserDashboardData(userId);
+    //this is hardcoded value.
+  const { stats, recentOrders,  error } = useUserDashboardData();
   // console.log('recentOrders:', recentOrders);
 
   const handleViewOrder = (orderId) => {
@@ -67,7 +69,7 @@ const UserDashboard = () => {
         <div className="flex flex-wrap justify-between gap-3 p-4">
           <div className="flex min-w-72 flex-col gap-3">
             <p className="text-[#111318] tracking-light text-[32px] font-bold leading-tight">Dashboard</p>
-            <p className="text-[#606e8a] text-sm font-normal leading-normal">Welcome back, Rajesh Sharma</p>
+            <p className="text-[#606e8a] text-sm font-normal leading-normal">Welcome back,  <b className="font-bold text-m text-black">{ user.name || "User"}</b></p>
           </div>
         </div>
 

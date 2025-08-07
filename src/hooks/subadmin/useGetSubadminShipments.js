@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import api from '../../api/axios'; // Adjust path as needed
+import { useState, useEffect, useCallback } from 'react';
+import api from '../../api/axios';
 
 export const useGetSubadminShipments = () => {
     const [shipments, setShipments] = useState([]);
@@ -9,24 +9,24 @@ export const useGetSubadminShipments = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 
+    // We wrap the data fetching logic in useCallback for stability
+    const fetchShipments = useCallback(async () => {
+        setIsLoading(true);
+        setError(null);
+        try {
+            const response = await api.get('/shipments/my-center');
+            setShipments(response.data);
+        } catch (err) {
+            setError(err.response?.data?.message || 'Failed to fetch shipments.');
+        } finally {
+            setIsLoading(false);
+        }
+    }, []); // Empty dependency array means this function is created only once
+
     useEffect(() => {
-        const fetchShipments = async () => {
-            setIsLoading(true);
-            setError(null);
-            try {
-                const response = await api.get('/shipments/my-center');
-                setShipments(response.data);
-            } catch (err) {
-                setError(err.response?.data?.message || 'Failed to fetch shipments.');
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
         fetchShipments();
-    }, []);
+    }, [fetchShipments]);
 
-    console.log(shipments)
     // Filter shipments by Tracking ID
     const filteredShipments = shipments.filter(shipment =>
         shipment.trackingId?.toLowerCase().includes(searchQuery.toLowerCase())
@@ -57,6 +57,7 @@ export const useGetSubadminShipments = () => {
         totalPages,
         handleSearchChange,
         handlePageChange,
-        totalShipments: filteredShipments.length
+        totalShipments: filteredShipments.length,
+        refetch: fetchShipments // <-- This now correctly exposes the refetch function
     };
 };

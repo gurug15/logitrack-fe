@@ -20,9 +20,16 @@ const Footer = () => {
               </a>
             ))}
           </div>
-          <p className="text-[#606e8a] text-base font-normal leading-normal">
-            © 2024 LogiTRACK. All rights reserved.
-          </p>
+          <div className="flex flex-col items-center gap-2 mt-4">
+            <div className="flex items-center gap-2">
+              <svg width="20" height="20" fill="#1b5ff3" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="10" fill="#eaf1ff"/>
+                <text x="12" y="16" textAnchor="middle" fontSize="12" fill="#1b5ff3" fontWeight="bold">©</text>
+              </svg>
+              <span className="text-[#1b5ff3] font-semibold text-lg tracking-wide">2024 LogiTRACK</span>
+            </div>
+            <span className="text-[#606e8a] text-sm font-normal">All rights reserved.</span>
+          </div>
         </footer>
       </div>
     </footer>

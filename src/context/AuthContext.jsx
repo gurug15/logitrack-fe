@@ -12,7 +12,7 @@ export const  AuthProvider = ({ children }) => {
     const [token, setToken] = useState(localStorage.getItem('token'));
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
-
+    console.log(user)
     useEffect(() => {
         // On initial load, check for a token in localStorage
         if (token) {
