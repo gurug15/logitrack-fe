@@ -5,6 +5,7 @@ import SearchBar from '../../components/ui/SearchBar';
 import { DataTable } from '../../components/tabels/DataTable';
 import { StatusBadge } from '../../components/ui/StatusBadge';
 import { useCreateShipment } from '../../hooks/shipments/useCreateShipments';
+import toast from 'react-hot-toast';
 
 const IncomingOrdersPage = () => {
     const {
@@ -28,18 +29,38 @@ const IncomingOrdersPage = () => {
         try {
             const newShipment = await createShipment(orderId);
             // On success, show a confirmation and refresh the list of orders
-            alert(`Shipment created successfully! New Tracking ID: ${newShipment.trackingId}`);
+            toast.success(`successful New Tracking ID: ${newShipment.trackingId}`);
             refetch();
-        } catch (error) {
-            // If the API call fails, show an alert
-            alert(`Error: ${error.message}`);
-        }
+        } catch (err) {
+                // 1. Start with a safe, generic error message.
+            let errorMessage = "An unexpected error occurred. Please try again.";
+
+            // 2. Check if your backend sent a specific, clean error message.
+            // This is the message from your ErrorMessage DTO (e.g., "Shipment is already processed.").
+            if (err.response?.data?.message) {
+                errorMessage = err.response.data.message;
+            }
+
+            // 3. Show the cleanest possible error to the user.
+            toast.error(errorMessage);
+            
+            // Also, log the full error for yourself to debug
+            console.error("API Error:", err);
+                }
     };
 
     const columns = [
         { key: 'id', header: 'Order ID', render: (id) => `#${id}` },
         { key: 'customername', header: 'Customer Name' },
-        { key: 'orderdate', header: 'Order Date', render: (date) => new Date(date).toLocaleDateString() },
+        { 
+        key: 'orderDate', 
+        header: 'Order Date', 
+        render: (date) => {
+            const d = new Date(date);
+            // Check if the date is valid before trying to format it
+            return d instanceof Date && !isNaN(d) ? d.toLocaleDateString() : 'Invalid Date';
+        } 
+    },
         { key: 'city', header: 'Destination City' },
         { key: 'status', header: 'Status', render: (status) => <StatusBadge status={status} /> },
         {

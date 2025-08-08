@@ -1,47 +1,49 @@
 import DetailItem from './DetailItem';
 
 const PackageDetails = ({ packageData }) => {
-  const defaultPackageData = {
-    trackingNumber: "LT1234567890",
-    sender: "Vendor Co.",
-    recipient: "Priya Sharma",
-    deliveryAddress: "123, Linking Road, Mumbai, 400050",
-    estimatedDelivery: "2024-01-15",
-    status: "Delivered",
-    notifications: "None",
-    support: "For any queries, contact support@logitrack.in"
-  };
+    // If there's no data, don't render anything.
+    // The parent component handles loading/error states.
+    if (!packageData) {
+        return null;
+    }
 
-  const data = packageData || defaultPackageData;
+    // Format the date for a more user-friendly display.
+    // E.g., "August 10, 2025"
+    const formattedDeliveryDate = new Date(packageData.expectedDelivery).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    });
 
-  const detailItems = [
-    { label: "Tracking Number", value: data.trackingNumber, isLeft: true },
-    { label: "Sender", value: data.sender, isLeft: false },
-    { label: "Recipient", value: data.recipient, isLeft: true },
-    { label: "Delivery Address", value: data.deliveryAddress, isLeft: false },
-    { label: "Estimated Delivery", value: data.estimatedDelivery, isLeft: true },
-    { label: "Status", value: data.status, isLeft: false },
-    { label: "Notifications", value: data.notifications, isLeft: true },
-    { label: "Support", value: data.support, isLeft: false }
-  ];
+    // This array now maps directly to the keys in your API response.
+    const detailItems = [
+        { label: "Tracking ID", value: packageData.trackingId, isLeft: true },
+        { label: "Sender", value: packageData.senderName, isLeft: false },
+        { label: "Recipient", value: packageData.recipientName, isLeft: true },
+        { label: "Delivery Address", value: packageData.deliveryAddress, isLeft: false },
+        { label: "Expected Delivery", value: formattedDeliveryDate, isLeft: true },
+        { label: "Status", value: packageData.status, isLeft: false },
+        { label: "Weight", value: `${packageData.weight} kg`, isLeft: true },
+        { label: "Dimensions", value: packageData.dimensions, isLeft: false },
+    ];
 
-  return (
-    <div>
-      <h2 className="text-[#111318] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
-        Package Details
-      </h2>
-      <div className="p-4 grid grid-cols-2">
-        {detailItems.map((item, index) => (
-          <DetailItem
-            key={index}
-            label={item.label}
-            value={item.value}
-            isLeft={item.isLeft}
-          />
-        ))}
-      </div>
-    </div>
-  );
+    return (
+        <div>
+            <h2 className="text-[#111318] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
+                Package Details
+            </h2>
+            <div className="p-4 grid grid-cols-2">
+                {detailItems.map((item, index) => (
+                    <DetailItem
+                        key={index}
+                        label={item.label}
+                        value={item.value}
+                        isLeft={item.isLeft}
+                    />
+                ))}
+            </div>
+        </div>
+    );
 };
 
 export default PackageDetails;

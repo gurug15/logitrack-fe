@@ -1,11 +1,13 @@
+import { useNavigate } from "react-router-dom";
 import HeroSection from "../../components/ui/homepage/HeroSection";
 import ServicesSection from "../../components/ui/homepage/ServiceSection";
 
 
 const HomePage = () => {
+  const navigate = useNavigate();
   const handleSearch = (searchTerm) => {
     console.log('Searching for:', searchTerm);
-    // Implement search logic here
+     navigate(`/track?trackingId=${searchTerm}`);
   };
 
   return (

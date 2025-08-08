@@ -6,6 +6,7 @@ import Pagination from '../../components/ui/Pagination';
 import SearchBar from '../../components/ui/SearchBar';
 import { DataTable } from '../../components/tabels/DataTable';
 
+
 const ShipmentsPage = () => {
     const {
         shipments,
@@ -35,7 +36,7 @@ const ShipmentsPage = () => {
         handleModalClose();
         refetch(); // This refreshes the data on the main page!
     };
-
+    console.log(shipments)
     const columns = [
         { key: 'trackingId', header: 'Tracking ID' },
         { key: 'currentCenterName', header: 'Current Center' },

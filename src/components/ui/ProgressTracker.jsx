@@ -8,54 +8,43 @@ const CheckCircleIcon = ({ size = "24px" }) => (
 );
 
 const ProgressTracker = ({ progressData }) => {
-  const defaultProgressData = [
-    {
-      icon: <CheckCircleIcon />,
-      title: "Package Delivered",
-      description: "Delivered on 2024-01-15, 10:30 AM, Mumbai",
-      isCompleted: true
-    },
-    {
-      icon: <TruckIcon />,
-      title: "Out for Delivery",
-      description: "Out for delivery on 2024-01-15, 8:00 AM, Mumbai",
-      isCompleted: true
-    },
-    {
-      icon: <PackageIcon />,
-      title: "In Transit",
-      description: "In transit on 2024-01-14, 6:00 PM, Pune",
-      isCompleted: true
-    },
-    {
-      icon: <PackageIcon />,
-      title: "Package Received",
-      description: "Package received on 2024-01-14, 2:00 PM, Pune",
-      isCompleted: true
-    }
-  ];
+    // We expect the real data to be passed in as 'progressData'
+    const steps = progressData || [];
 
-  const steps = progressData || defaultProgressData;
+    // --- THIS NEW FUNCTION CHOOSES THE ICON ---
+    const getIconForStatus = (status) => {
+        const lowerCaseStatus = status.toLowerCase();
+        
+        if (lowerCaseStatus.includes('delivered')) {
+            return <CheckCircleIcon />;
+        }
+        if (lowerCaseStatus.includes('out for delivery')) {
+            return <TruckIcon />;
+        }
+        // Default case for "Pending", "In Transit", "Arrived at Hub", etc.
+        return <PackageIcon />;
+    };
 
-  return (
-    <div>
-      <h2 className="text-[#111318] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
-        Package Progress
-      </h2>
-      <div className="grid grid-cols-[40px_1fr] gap-x-2 px-4">
-        {steps.map((step, index) => (
-          <ProgressStep
-            key={index}
-            icon={step.icon}
-            title={step.title}
-            description={step.description}
-            isCompleted={step.isCompleted}
-            isLast={index === steps.length - 1}
-          />
-        ))}
-      </div>
-    </div>
-  );
+    return (
+        <div>
+            <h2 className="text-[#111318] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
+                Package Progress
+            </h2>
+            <div className="grid grid-cols-[40px_1fr] gap-x-2 px-4">
+                {steps.map((step, index) => (
+                    <ProgressStep
+                        key={step.id || index}
+                        // The icon is now chosen dynamically based on the step's status
+                        icon={getIconForStatus(step.status)}
+                        title={step.status} // The title is the status itself
+                        description={`${step.notes} - ${new Date(step.timestamp).toLocaleString()}`} // A more detailed description
+                        isCompleted={true} // All history items are completed events
+                        isLast={index === steps.length - 1}
+                    />
+                ))}
+            </div>
+        </div>
+    );
 };
 
 export default ProgressTracker;

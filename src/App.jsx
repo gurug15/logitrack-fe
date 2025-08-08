@@ -20,15 +20,16 @@ import EditUserPage from "./pages/admin/EditUserPage"
 import ShipmentsPage from "./pages/subadmin/ShipmentPage"
 import IncomingOrdersPage from "./pages/subadmin/IncomingOrdersPage"
 import SubAdminLayout from "./components/subadmin/SubadminLayout"
-
+import { Toaster } from 'react-hot-toast';
 
 
 
 
 function App() {
-
+ 
   return (
     <>
+    <Toaster position="top-right" reverseOrder={false} />
       <Routes>
         {/* --- Public Routes --- */}
         <Route path="/" element={<Layout />} >

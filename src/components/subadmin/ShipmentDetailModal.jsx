@@ -1,7 +1,7 @@
 import React from 'react';
 import { useUpdateShipment } from '../../hooks/shipments/useUpdateShipment';
 import { useAuth } from '../../hooks/auth/useAuth';
-;
+import toast from 'react-hot-toast';
 
 // Helper component for displaying details
 const DetailItem = ({ label, value }) => (
@@ -12,9 +12,10 @@ const DetailItem = ({ label, value }) => (
 );
 
 export const ShipmentDetailModal = ({ shipment, isOpen, onClose, onUpdateSuccess }) => {
-    const { dispatchShipment, isLoading } = useUpdateShipment();
+    const { dispatchShipment,markAsDelivered, isLoading } = useUpdateShipment();
     const { user } = useAuth();
-
+    console.log(shipment);
+    
     if (!isOpen || !shipment) return null;
 
     const handleDispatch = async () => {
@@ -22,14 +23,34 @@ export const ShipmentDetailModal = ({ shipment, isOpen, onClose, onUpdateSuccess
             await dispatchShipment(shipment.id);
             onUpdateSuccess();
         } catch (err) {
-            alert(`Error: ${err.message}`);
+            toast.error(`Error: ${err.details}`)
+        }
+    };
+
+    // Handle backdrop click to close modal
+    const handleBackdropClick = (e) => {
+        if (e.target === e.currentTarget) {
+            onClose();
+        }
+    };
+
+    const handleDeliver = async () => {
+        try {
+            await markAsDelivered(shipment.id);
+            onUpdateSuccess();
+        } catch (err) {
+            console.error(err);
         }
     };
 
     const isShipmentFinalState = ['Delivered', 'Failed Delivery', 'Returning to Sender'].includes(shipment.status);
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-90 flex justify-center items-center z-50 p-4">
+        <div 
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}
+            onClick={handleBackdropClick}
+        >
             <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
                 {/* Header */}
                 <div className="flex justify-between items-center p-4 border-b">
@@ -37,16 +58,22 @@ export const ShipmentDetailModal = ({ shipment, isOpen, onClose, onUpdateSuccess
                         <h2 className="text-lg font-bold text-gray-900">Shipment Details</h2>
                         <p className="text-sm text-gray-500 font-mono">{shipment.trackingId}</p>
                     </div>
-                    <button onClick={onClose} className="text-3xl font-light text-gray-400 hover:text-gray-800">&times;</button>
+                    <button 
+                        onClick={onClose} 
+                        className="text-3xl font-light text-gray-400 hover:text-gray-800 transition-colors"
+                    >
+                        &times;
+                    </button>
                 </div>
 
-                {/* --- THIS IS THE MISSING BODY SECTION --- */}
+                {/* Body */}
                 <div className="p-6 overflow-y-auto">
                     {/* Shipment Info Grid */}
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                         <DetailItem label="Source Center" value={shipment.sourceCenterName} />
                         <DetailItem label="Current Center" value={shipment.currentCenterName} />
                         <DetailItem label="Destination Center" value={shipment.destCenterName} />
+                        <DetailItem label="Next Center"  value={shipment.nextCenterName} />
                         <DetailItem label="Expected Delivery" value={new Date(shipment.expectedDelivery).toLocaleDateString()} />
                         <DetailItem label="Weight" value={`${shipment.weight} kg`} />
                         <DetailItem label="Dimensions" value={shipment.dimensions} />
@@ -67,19 +94,28 @@ export const ShipmentDetailModal = ({ shipment, isOpen, onClose, onUpdateSuccess
                         ))}
                     </div>
                 </div>
-                {/* --- END OF MISSING BODY SECTION --- */}
-
 
                 {/* Footer / Action Area for Sub-Admin */}
                 {user?.role === 'sub_admin' && (
                     <div className="p-4 bg-gray-50 border-t rounded-b-xl mt-auto text-center">
-                        <button
-                            onClick={handleDispatch}
-                            disabled={isLoading || isShipmentFinalState}
-                            className="w-full sm:w-auto px-6 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-400 disabled:cursor-not-allowed"
-                        >
-                            {isLoading ? 'Processing...' : 'Dispatch to Next Center'}
-                        </button>
+                         {shipment.status === 'Out for Delivery' ? (
+                            <button
+                                onClick={handleDeliver}
+                                disabled={isLoading}
+                                className="w-full sm:w-auto px-6 py-2 text-sm font-medium text-white bg-green-600 border border-transparent rounded-md shadow-sm hover:bg-green-700 disabled:bg-green-300"
+                            >
+                                {isLoading ? 'Saving...' : 'Mark as Delivered'}
+                            </button>
+                        ) : (
+                            // Otherwise, show the normal Dispatch button
+                            <button
+                                onClick={handleDispatch}
+                                disabled={isLoading || isShipmentFinalState}
+                                className="w-full sm:w-auto px-6 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                            >
+                                {isLoading ? 'Processing...' : 'Dispatch to Next Center'}
+                            </button>
+                        )}
                         {isShipmentFinalState && <p className="text-xs text-gray-500 mt-2">This shipment cannot be updated further.</p>}
                     </div>
                 )}
