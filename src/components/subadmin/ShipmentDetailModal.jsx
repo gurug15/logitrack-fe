@@ -74,7 +74,7 @@ export const ShipmentDetailModal = ({ shipment, isOpen, onClose, onUpdateSuccess
                         <DetailItem label="Current Center" value={shipment.currentCenterName} />
                         <DetailItem label="Destination Center" value={shipment.destCenterName} />
                         <DetailItem label="Next Center"  value={shipment.nextCenterName} />
-                        <DetailItem label="Expected Delivery" value={new Date(shipment.expectedDelivery).toLocaleDateString()} />
+                        <DetailItem label="Expected Delivery" value={ shipment.expectedDelivery ? new Date(shipment.expectedDelivery).toLocaleDateString(): "-"} />
                         <DetailItem label="Weight" value={`${shipment.weight} kg`} />
                         <DetailItem label="Dimensions" value={shipment.dimensions} />
                     </div>

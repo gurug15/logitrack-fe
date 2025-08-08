@@ -6,7 +6,7 @@ import { useOrderDetails } from '../../hooks/user/useUserDashboardData';
 const ProgressTracker = ({ currentStatus }) => {
   const steps = [
     "Ordered",
-    "Dispatched",
+    "Processed",
     "In Transit",
     "Out for Delivery",
     "Delivered"
@@ -14,7 +14,7 @@ const ProgressTracker = ({ currentStatus }) => {
   // Map status to step index
   const statusMap = {
     ordered: 0,
-    dispatched: 1,
+    processed: 1,
     "in transit": 2,
     shipped: 2,
     "out for delivery": 3,

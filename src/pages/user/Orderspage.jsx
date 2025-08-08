@@ -84,7 +84,7 @@ const OrdersPage = () => {
 
   // Handle row click (optional - you can remove this if you only want button click)
   const handleRowClick = (row) => {
-    handleViewOrder(row.orderId);
+    handleViewOrder(row.id);
   };
 
   // Loading state
