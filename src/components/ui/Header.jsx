@@ -4,9 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Header = () => {
   const navItems = [
-    { label: "Solutions", href: "#" },
-    { label: "Pricing", href: "#" },
-    { label: "Resources", href: "#" }
+   
   ];
 
   return (
@@ -33,6 +31,7 @@ const Header = () => {
         
         <div className="flex gap-2">
           {/* <Button variant="primary">Request a demo</Button> */}
+          <Link to="/login"><Button variant="secondary">Login</Button></Link>
           <Link to="/signup"><Button variant="secondary">Sign up</Button></Link>
         </div>
       </div>

@@ -5,10 +5,8 @@ import ProfileModal from './ProfileModal';
 
 const DashboardHeader = () => {
   const navItems = [
-    { label: "Dashboard", href: "/dashboard" },
-    { label: "Shipments", href: "/shipments" },
-    { label: "Orders", href: "/dashboard/orders" },
-    { label: "Customers", href: "#" }
+    { label: "Dashboard", href: "/dashboard" },   
+    { label: "Orders", href: "/dashboard/orders" }
   ];
 
 

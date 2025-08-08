@@ -9,7 +9,11 @@ const CheckCircleIcon = ({ size = "24px" }) => (
 
 const ProgressTracker = ({ progressData }) => {
     // We expect the real data to be passed in as 'progressData'
-    const steps = progressData || [];
+     const history = progressData || [];
+
+    // --- THIS IS THE FIX ---
+    // Sort the history entries by timestamp, from newest to oldest.
+    const sortedHistory = history.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
     // --- THIS NEW FUNCTION CHOOSES THE ICON ---
     const getIconForStatus = (status) => {
@@ -31,7 +35,7 @@ const ProgressTracker = ({ progressData }) => {
                 Package Progress
             </h2>
             <div className="grid grid-cols-[40px_1fr] gap-x-2 px-4">
-                {steps.map((step, index) => (
+                {sortedHistory.map((step, index) => (
                     <ProgressStep
                         key={step.id || index}
                         // The icon is now chosen dynamically based on the step's status
@@ -39,7 +43,7 @@ const ProgressTracker = ({ progressData }) => {
                         title={step.status} // The title is the status itself
                         description={`${step.notes} - ${new Date(step.timestamp).toLocaleString()}`} // A more detailed description
                         isCompleted={true} // All history items are completed events
-                        isLast={index === steps.length - 1}
+                        isLast={index === sortedHistory.length - 1}
                     />
                 ))}
             </div>
