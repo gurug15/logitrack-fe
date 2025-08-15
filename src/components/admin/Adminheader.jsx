@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import ProfileModal from "../ui/ProfileModal";
+import { useAuth } from "../../hooks/auth/useAuth";
 
 export const AdminHeader = () => {
+  const {user} = useAuth();
   const [modalOpen, setModalOpen] = useState(false);
   return (
     <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f1f2f4] px-10 py-3">
@@ -37,13 +39,33 @@ export const AdminHeader = () => {
             </svg>
           </div>
         </button>
-        <div
-          className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
-          style={{
-            backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuDun_pZ19KJ36Nawxh5ITvx63NutwDi5q8Uj-sYfPizADy5VzbqSWkNCCkn9kgtIWB9AiS4tTk7JPn_fchSrxu2_yMnPoAzypRlzKqjfNcDJilKx9WHWw1IN7D2ipC6MvziY9URgEIOxmpZiMzpNPHsuRgR9BBT-7qTdLMEIz9FUldcvpUXmcrNBldU04NJNSTPbGytU2s4SYk-dPc5FOvKwJuyK0ZBbdQjG1taSYbdQH9yPqwgbk4HQR2dolaMT8uDN793osvVQvQ")'
-          }}
-          onClick={() => setModalOpen(true)}
-        />
+          <div
+            className="
+              size-10 
+              rounded-full 
+              bg-center 
+              bg-no-repeat 
+              bg-cover 
+              flex 
+              items-center 
+              justify-center 
+              font-semibold 
+              text-white 
+              bg-gradient-to-br from-indigo-500 to-purple-500
+              shadow-md
+              cursor-pointer
+              hover:scale-105 
+              hover:shadow-lg 
+              active:scale-95
+              transition-all 
+              duration-200 
+              ease-in-out
+            "
+            onClick={() => setModalOpen(true)}
+            title="Profile"
+          >
+                {user.name.charAt(0).toUpperCase()}
+        </div>
         {modalOpen && (
           <ProfileModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
         )}

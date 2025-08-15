@@ -2,15 +2,17 @@
 import React, { useState } from 'react';
 import Logo from './Logo';
 import ProfileModal from './ProfileModal';
+import { useAuth } from '../../hooks/auth/useAuth';
 
 const DashboardHeader = () => {
+  const {user} = useAuth();
   const navItems = [
     { label: "Dashboard", href: "/dashboard" },   
     { label: "Orders", href: "/dashboard/orders" }
   ];
 
 
-  const profileImageUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuANCij5D4Hgixdp2wGya2wPTbM6WTnA4SG9kaMelqanJz4T5phOmYLAU1B4szrRVJ09dMnoVRTvwQSXHN4y4Mv61P2RRR4-7dX7FuStriAPaVG7PCQByL30jdCd136JRA_JW573W6JUkVJ85SFDm8Un5_Vxcq3rf09hg5ZqnjrC5upkQcVs8dLVa3XbYdqHtvqzKpkKhgTixMi9bJqkbpxRa8PVGnQ7e8cjBq1TvC63p_kICmxvUVaeNSgFfMaCfNwTRqnA9f4ttWY";
+  // const profileImageUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuANCij5D4Hgixdp2wGya2wPTbM6WTnA4SG9kaMelqanJz4T5phOmYLAU1B4szrRVJ09dMnoVRTvwQSXHN4y4Mv61P2RRR4-7dX7FuStriAPaVG7PCQByL30jdCd136JRA_JW573W6JUkVJ85SFDm8Un5_Vxcq3rf09hg5ZqnjrC5upkQcVs8dLVa3XbYdqHtvqzKpkKhgTixMi9bJqkbpxRa8PVGnQ7e8cjBq1TvC63p_kICmxvUVaeNSgFfMaCfNwTRqnA9f4ttWY";
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
@@ -46,11 +48,32 @@ const DashboardHeader = () => {
             </svg>
           </button>
           <div
-            className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 cursor-pointer"
-            style={{ backgroundImage: `url("${profileImageUrl}")` }}
+            className="
+              size-10 
+              rounded-full 
+              bg-center 
+              bg-no-repeat 
+              bg-cover 
+              flex 
+              items-center 
+              justify-center 
+              font-semibold 
+              text-white 
+              bg-gradient-to-br from-indigo-500 to-purple-500
+              shadow-md
+              cursor-pointer
+              hover:scale-105 
+              hover:shadow-lg 
+              active:scale-95
+              transition-all 
+              duration-200 
+              ease-in-out
+            "
             onClick={() => setModalOpen(true)}
             title="Profile"
-          />
+          >
+                {user.name.charAt(0).toUpperCase()}
+        </div>
           {modalOpen && (
             <ProfileModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
           )}

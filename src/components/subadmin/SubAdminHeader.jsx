@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 import ProfileModal from '../ui/ProfileModal';
 import Logo from '../ui/Logo';
+import { useAuth } from '../../hooks/auth/useAuth';
 // import { useAuth } from '../../context/AuthContext';
 
 const SubAdminHeader = () => {
@@ -11,11 +12,11 @@ const SubAdminHeader = () => {
         { label: "Incoming Orders", href: "/subadmin" },
         { label: "Shipments", href: "/subadmin/shipments" },
     ];
-
+    const { user } = useAuth();
     // const { user } = useAuth();
     const [modalOpen, setModalOpen] = useState(false);
     
-    const profileImageUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuDun_pZ19KJ36Nawxh5ITvx63NutwDi5q8Uj-sYfPizADy5VzbqSWkNCCkn9kgtIWB9AiS4tTk7JPn_fchSrxu2_yMnPoAzypRlzKqjfNcDJilKx9WHWw1IN7D2ipC6MvziY9URgEIOxmpZiMzpNPHsuRgR9BBT-7qTdLMEIz9FUldcvpUXmcrNBldU04NJNSTPbGytU2s4SYk-dPc5FOvKwJuyK0ZBbdQjG1taSYbdQH9yPqwgbk4HQR2dolaMT8uDN793osvVQvQ";
+    // const profileImageUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuDun_pZ19KJ36Nawxh5ITvx63NutwDi5q8Uj-sYfPizADy5VzbqSWkNCCkn9kgtIWB9AiS4tTk7JPn_fchSrxu2_yMnPoAzypRlzKqjfNcDJilKx9WHWw1IN7D2ipC6MvziY9URgEIOxmpZiMzpNPHsuRgR9BBT-7qTdLMEIz9FUldcvpUXmcrNBldU04NJNSTPbGytU2s4SYk-dPc5FOvKwJuyK0ZBbdQjG1taSYbdQH9yPqwgbk4HQR2dolaMT8uDN793osvVQvQ";
 
     const activeLinkStyle = {
         color: '#1b5ff3', // Your brand's primary color for active links
@@ -56,11 +57,32 @@ const SubAdminHeader = () => {
                         </svg>
                     </button>
                     <div
-                        className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 cursor-pointer"
-                        style={{ backgroundImage: `url("${profileImageUrl}")` }}
-                        onClick={() => setModalOpen(true)}
-                        title="Profile"
-                    />
+            className="
+              size-10 
+              rounded-full 
+              bg-center 
+              bg-no-repeat 
+              bg-cover 
+              flex 
+              items-center 
+              justify-center 
+              font-semibold 
+              text-white 
+              bg-gradient-to-br from-indigo-500 to-purple-500
+              shadow-md
+              cursor-pointer
+              hover:scale-105 
+              hover:shadow-lg 
+              active:scale-95
+              transition-all 
+              duration-200 
+              ease-in-out
+            "
+            onClick={() => setModalOpen(true)}
+            title="Profile"
+          >
+                {user.name.charAt(0).toUpperCase()}
+        </div>
                     {modalOpen && (
                         <ProfileModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
                     )}

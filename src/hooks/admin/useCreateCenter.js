@@ -7,7 +7,7 @@ export const useCreateCenter = () => {
     const [center, setCenter] = useState({
         name: '',
         city: '',
-        state: '',
+        state: 'Maharashtra',
         address: '',
         postalcode: '',
         contactPhone: ''

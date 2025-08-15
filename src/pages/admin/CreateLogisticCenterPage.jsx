@@ -18,10 +18,7 @@ const CreateLogisticCenterPage = () => {
     // Example state options. Ideally, fetch this from an API.
     const stateOptions = [
         { value: "", label: "Select a state" },
-        { value: "Maharashtra", label: "Maharashtra" },
-        { value: "Delhi", label: "Delhi" },
-        { value: "Karnataka", label: "Karnataka" },
-        // Add all Indian states
+        { value: "Maharashtra", label: "Maharashtra" }
     ];
 
     return (
